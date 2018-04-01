@@ -24,8 +24,132 @@
   <body>
     <div class="reveal">
       <div class="slides">
-	<section>Slide 1</section>
-	<section>Slide 2</section>
+	<section data-markdown>
+          <textarea data-template>
+            ### Open Source Tools For Point Cloud Processing, Storage, Subsetting, And Visualization
+
+
+            Kevin Beam
+
+            Professional Research Assistant
+
+            National Snow and Ice Data Center (NSIDC)
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### About NSIDC
+            - Manages and distributes scientific data
+            - Creates tools for data access
+            - Supports data users
+            - Performs scientific research
+            - Educates the public about the cryosphere
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### What We'll Talk About
+            - The missions and datasets
+            - Processing
+            - Storing
+            - Subsetting
+            - Visualizing
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ![NASA Logo](images/NASA_logo.svg)
+
+            ### Operation IceBridge
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            IceSat-1
+            ![IceSat-1](images/DeathStarOne.jpg)
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ![IceSat-1](images/DeathStarDestroyed.jpeg)
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            IceSat-2
+            ![IceSat-2](images/DeathStarTwo.jpeg)
+          </textarea>
+        </section>
+        <section data-background-video="videos/icebridge-greenland-decline.mkv">
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ![IceBridge P-3](images/IceBridge_P3.png)
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            Airborne Topographic Mapper (ATM)
+
+            ![Airborne Topographic Mapper (ATM)](images/ATM.jpg)
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            Laser Vegetation Imaging Sensor (LVIS)
+
+            ![Laser Vegetation Imaging Sensor (LVIS)](images/LVIS.jpg)
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### The Datasets
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### [LVIS1B](https://nsidc.org/data/ilvis1b)
+
+            - 2009 through 2015
+            - Two distinct datasets: v1 and v2
+            - v1: Big-endian binary format
+            - v2: HDF5 format
+            - Data contains seconds of day, not date/time
+            - Longitude needs to be shifted to -180 to 180
+            - Three sets of lat, lon, elevations to pick from!
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### [ATM1B](https://nsidc.org/data/ilatm1b)
+
+            - 1993 through 2017
+            - Three distinct datasets: pre-IceBridge, v1, and v2
+            - Pre-IceBridge:
+              - Qfit binary format
+              - Three distinct formats
+              - Both big and little endian!
+            - v1: Qfit Binary format
+            - v2: HDF5
+            - Data contains GPS seconds, not UTC date/time
+            - Longitude needs to be shifted to -180 to 180
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            Using the data is complex!
+
+            - Data peculiarities from previous slides
+            - Which files do you need?
+              - Temporal coverage
+              - Spatial coverage
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            Content
+          </textarea>
+        </section>
       </div>
     </div>
 
