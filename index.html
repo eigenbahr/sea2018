@@ -39,21 +39,21 @@
 	<section data-markdown>
           <textarea data-template>
             ![NSIDC Logo](images/NSIDC-logo.png)
-            - Manages and distributes scientific data
-            - Creates tools for data access
-            - Supports data users
-            - Performs scientific research
-            - Educates the public about the cryosphere
+            <p class="fragment">Manages and distributes scientific data</p>
+            <p class="fragment">Creates tools for data access</p>
+            <p class="fragment">Supports data users</p>
+            <p class="fragment">Performs scientific research</p>
+            <p class="fragment">Educates the public about the cryosphere</p>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
             ### What We'll Talk About
-            - The missions and datasets
-            - Processing
-            - Storing
-            - Subsetting
-            - Visualizing
+            <p class="fragment">The missions and datasets</p>
+            <p class="fragment">Processing</p>
+            <p class="fragment">Storing</p>
+            <p class="fragment">Subsetting</p>
+            <p class="fragment">Visualizing</p>
           </textarea>
         </section>
 	<section data-markdown>
@@ -112,36 +112,41 @@
           <textarea data-template>
             ### [LVIS1B](https://nsidc.org/data/ilvis1b)
 
-            - 2009 through 2015
-            - Two distinct datasets: v1 and v2
-            - v1: Big-endian binary format
-            - v2: HDF5 format
-            - Data contains seconds of day, not date/time
-            - Longitude needs to be shifted to -180 to 180
-            - Three sets of lat, lon, elevations to pick from!
+            <ul>
+              <li class="fragment">2009 through 2015</li>
+              <li class="fragment">Two distinct datasets: v1 and v2</li>
+              <li class="fragment">v1: Big-endian binary format</li>
+              <li class="fragment">v2: HDF5 format</li>
+              <li class="fragment">Data contains seconds of day, not date/time</li>
+              <li class="fragment">Longitude needs to be shifted to -180 to 180</li>
+              <li class="fragment">Three sets of lat, lon, elevations to pick from!</li>
+            </ul>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
             ### [ATM1B](https://nsidc.org/data/ilatm1b)
 
-            - 1993 through 2017
-            - Three distinct datasets: pre-IceBridge, v1, and v2
-            - Pre-IceBridge:
-              - Qfit binary format
-              - Three distinct formats
-              - Both big and little endian!
-            - v1: Qfit Binary format
-            - v2: HDF5
-            - Data contains GPS seconds, not UTC date/time
-            - Longitude needs to be shifted to -180 to 180
+            <ul>
+              <li class="fragment">1993 through 2017</li>
+              <li class="fragment">Three distinct datasets: pre-IceBridge, v1, and v2</li>
+              <li class="fragment">Pre-IceBridge:</li>
+              <ul>
+                <li class="fragment">Qfit binary format</li>
+                <li class="fragment">Three distinct formats</li>
+                <li class="fragment">Both big and little endian!</li>
+              </ul>
+              <li class="fragment">v1: Qfit Binary format</li>
+              <li class="fragment">v2: HDF5</li>
+              <li class="fragment">Data contains GPS seconds, not UTC date/time</li>
+              <li class="fragment">Longitude needs to be shifted to -180 to 180</li>
+            </ul>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
             Using the data is complex!
 
-            - Data peculiarities from previous slides
             - Which files do you need?
               - Temporal coverage
               - Spatial coverage
@@ -160,12 +165,14 @@
           <textarea data-template>
             What we'd _really_ like:
 
-            - One format: HDF5
-            - Don't make me think about endianness!
-            - UTC date/time
-            - Normalized latitude / longitude
-            - Specify a date/time range
-            - Specify a spatial area
+            <ul>
+              <li class="fragment">Specify a date/time range</li>
+              <li class="fragment">Specify a spatial area</li>
+              <li class="fragment">One format: HDF5</li>
+              <li class="fragment">Don't make me think about endianness!</li>
+              <li class="fragment">UTC date/time</li>
+              <li class="fragment">Normalized latitude & longitude</li>
+            </ul>
           </textarea>
         </section>
 	<section data-markdown>
@@ -182,31 +189,93 @@
         </section>
 	<section data-markdown>
           <textarea data-template>
-            ### PostgreSQL
-            ### PostGIS
-            ### pgpointcloud
+            ### Wouldn't it be nice if we could just write a query?
+
+            <p class="fragment">We can with:</p>
+            <p class="fragment">PostgreSQL</p>
+            <p class="fragment">PostGIS</p>
+            <p class="fragment">pgpointcloud</p>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
             ### Why pgpointcloud?
 
-            - Couldn't we store each point as a row?
-            - pgpointcloud optimizations
+            - Couldn't we store each point as a row in a table?
+            - We could...up to a point... (<-- pun)
+            - To scale up to billions of points, we need to optimize
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            ### PDAL
+            ### Pgpointcloud Concepts
 
-            - PDAL is GDAL for point clouds!
-            - Capabilities
-            - Simple Examples
+            <ul>
+              <li class="fragment">pgpointcloud extends PostgreSQL and PostGIS</li>
+              <li class="fragment">A point can contain arbitrary attributes</li>
+              <li class="fragment">A point's attibutes are described by a schema</li>
+              <li class="fragment">A point is stored in a PG type called PC_Point</li>
+              <li class="fragment">Points are stored in Patches (PC_Patch)</li>
+              <li class="fragment">Patches are compressed</li>
+              <li class="fragment">Patches typically contain hundreds or thousands of points</li>
+            </ul>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            Using Python, PDAL, and pgpointcloud
+            ### Cool. What can we _do_ with it?
+
+            <ul>
+              <li>Geospatial queries!</li>
+              <li>Temporal queries!</li>
+            </ul>
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### Show Me!
+
+            TODO: Show query examples
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### How do we get data IN?
+
+            We need to:
+            <ul>
+              <li>Condition the data</li>
+              <li>Insert these PC_Point and PC_Patch things...</li>
+            </ul>
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### PDAL To the Rescue
+
+            - PDAL: Point Data Abstraction Library
+            - As GDAL handles raster and vector data, PDAL handles point data
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### What Does That Mean?
+
+            <p class="fragment">PDAL Lets You Create a Pipeline:</p>
+            <ul>
+              <li>Readers for a wide variety of formats</li>
+              <li>Large number of filters</li>
+              <li>Writers for a number of file formats</li>
+              <li>Including...</li>
+              <li>Pgpointcloud</li>
+            </ul>
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            ### So We Made a Pipeline
+
+            TODO: Pipeline picture
           </textarea>
         </section>
 	<section data-markdown>
@@ -216,25 +285,31 @@
         </section>
 	<section data-markdown>
           <textarea data-template>
-            Visualization
+            ### Visualization
 
             Can we see this point cloud you speak of?
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            Entwine
+            ### Entwine
+
+            <ul>
+              <li class="fragment">"Point cloud indexing for massive datasets"</li>
+              <li class="fragment">"Designed to conquer datasets of hundreds of billions of points"</li>
+              <li class="fragment">Most Importantly...</li>
+              <li class="fragment">It can ceate Cesium 3D Tiles</li>
+            </ul>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            CesiumJS
+            ### CesiumJS
+
+            An open-source JavaScript library for world-class 3D globes and maps
           </textarea>
         </section>
-	<section data-markdown>
-          <textarea data-template>
-            Demo
-          </textarea>
+	<section data-background-video="https://www.youtube.com/watch?v=z5pb0du8BCE">
         </section>
 	<section data-markdown>
           <textarea data-template>
