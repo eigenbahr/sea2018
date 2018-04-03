@@ -39,7 +39,7 @@
 	<section data-markdown>
           <textarea data-template>
             #### ~Or~
-            ### Using Data from Airplanes that Shoot Lasers
+            ### Getting Data by Flying Around and Shooting Lasers
 
             ![Spacecraft Lasers](images/spacecraft-laser.jpeg)
           </textarea>
@@ -82,13 +82,17 @@
           <textarea data-template>
             ICESat
 
-            2003 - 2009
+            2003 ...
 
             ![ICESat](images/DeathStarOne.jpg)
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
+            ICESat
+
+            ... 2009
+
             ![ICESat](images/DeathStarDestroyed.jpeg)
           </textarea>
         </section>
@@ -256,7 +260,8 @@
           <textarea data-template>
             <p>A polygon</p>
             <pre class="fragment"><code data-trim data-noescape>
-'SRID=4326;POLYGON((-49.699 69.081,
+'SRID=4326;POLYGON((
+                    -49.699 69.081,
                     -48.333 69.142,
                     -48.280 69.270,
                     -49.846 69.209,
@@ -313,7 +318,15 @@ WHERE
           <textarea data-template>
             ### So We Made a Simple Pipeline
 
-            Input Files -> Python -> PDAL Reader -> PDAL 'Chipper' -> PDAL Writer -> Database
+            <pre><code data-trim data-noescape>
+            Files ->
+            -> Python
+            -> Better Files
+            -> PDAL Reader
+            -> PDAL Chipper
+            -> PDAL Writer
+            -> PostGIS Database
+            </code></pre>
           </textarea>
         </section>
 	<section data-markdown>
