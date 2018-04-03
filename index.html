@@ -167,9 +167,9 @@
           <textarea data-template>
             Using the data is complex!
 
-            - Which files do you need?
-              - Temporal coverage
-              - Spatial coverage
+            But now: which files do you need?
+              - When?
+              - Where?
           </textarea>
         </section>
 	<section data-markdown>
@@ -183,14 +183,14 @@
         </section>
 	<section data-markdown>
           <textarea data-template>
-            What we'd _really_ like:
+            But here's what we'd _really_ like to be able to do:
 
             <ul>
               <li class="fragment">Specify a date/time range</li>
               <li class="fragment">Specify a spatial area</li>
-              <li class="fragment">One format: HDF5</li>
+              <li class="fragment">Get one format: HDF5</li>
               <li class="fragment">Don't make me think about endianness!</li>
-              <li class="fragment">UTC date/time</li>
+              <li class="fragment">Everything in UTC date/time</li>
               <li class="fragment">Normalized latitude & longitude</li>
             </ul>
           </textarea>
@@ -204,12 +204,12 @@
         </section>
 	<section data-markdown>
           <textarea data-template>
-            TODO: API docs
+            <video controls data-autoplay src="videos/valkyrie.mp4"></video>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            ### Wouldn't it be nice if we could just write a query?
+            ### Wouldn't it be nice if we could just put the data in a database and write a simple query?
 
             <p class="fragment">We can with:</p>
             <p class="fragment">PostgreSQL</p>
@@ -221,9 +221,9 @@
           <textarea data-template>
             ### Why pgpointcloud?
 
-            - Couldn't we store each point as a row in a table?
-            - We could...up to a point... (<-- pun)
-            - To scale up to billions of points, we need to optimize
+            <p class="fragment">Couldn't we store each point as a row in a table?</p>
+            <p class="fragment">We could...up to a point... (<-- pun)</p>
+            <p class="fragment">To scale up to billions of points, we need to optimize</p>
           </textarea>
         </section>
 	<section data-markdown>
@@ -234,38 +234,56 @@
               <li class="fragment">pgpointcloud extends PostgreSQL and PostGIS</li>
               <li class="fragment">A point can contain arbitrary attributes</li>
               <li class="fragment">A point's attibutes are described by a schema</li>
-              <li class="fragment">A point is stored in a PG type called PC_Point</li>
-              <li class="fragment">Points are stored in Patches (PC_Patch)</li>
-              <li class="fragment">Patches are compressed</li>
-              <li class="fragment">Patches typically contain hundreds or thousands of points</li>
-            </ul>
+              <li class="fragment">A point is stored in a new PG type</li>
+              <li class="fragment">Points are stored in groups called patches</li>
+              <li class="fragment">Patches are compressed bundles of points</li>
+              <li class="fragment">Patches typically contain hundreds or thousands of points</li>            </ul>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
             ### Cool. What can we _do_ with it?
 
+            <p class="fragment">Write simple SQL queries!</p>
             <ul>
-              <li>Geospatial queries!</li>
-              <li>Temporal queries!</li>
+              <li class="fragment">Geospatial conditions</li>
+              <li class="fragment">Temporal conditions</li>
             </ul>
+            <p class="fragment">Show Me!</p>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            ### Show Me!
+            <p>A polygon</p>
+            <pre class="fragment"><code data-trim data-noescape>
+'SRID=4326;POLYGON((-49.699 69.081,
+                    -48.333 69.142,
+                    -48.280 69.270,
+                    -49.846 69.209,
+                    -49.699 69.081))'::geometry
+	    </code></pre>
 
-            TODO: Show query examples
+            <p class="fragment">A date/time range</p>
+            <pre class="fragment"><code data-trim data-noescape>
+SELECT
+  PC_Get(PC_Explode(
+    PC_FilterBetween(pa, 'DateTime', 291817682, 291817682.01)))
+FROM
+  atm1b
+WHERE
+  rc_compute_range_for_a_patch(pa, 'DateTime') \
+    && NUMRANGE(291817682, 291817682.01);
+	    </code></pre>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            ### How do we get data IN?
+            ### How do we get data INTO the database?
 
             We need to:
             <ul>
-              <li>Condition the data</li>
-              <li>Insert these PC_Point and PC_Patch things...</li>
+              <li class="fragment">Condition the data</li>
+              <li class="fragment">Insert these Point and Patch things...</li>
             </ul>
           </textarea>
         </section>
@@ -281,26 +299,59 @@
           <textarea data-template>
             ### What Does That Mean?
 
-            <p class="fragment">PDAL Lets You Create a Pipeline:</p>
+            <p class="fragment">PDAL Lets You Create a Pipeline From:</p>
             <ul>
-              <li>Readers for a wide variety of formats</li>
-              <li>Large number of filters</li>
-              <li>Writers for a number of file formats</li>
-              <li>Including...</li>
-              <li>Pgpointcloud</li>
+              <li class="fragment">Readers for a wide variety of formats</li>
+              <li class="fragment">Processing nodes or "filters"</li>
+              <li class="fragment">Writers for various file formats</li>
+              <li class="fragment">Including...</li>
+              <li class="fragment">Pgpointcloud</li>
             </ul>
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            ### So We Made a Pipeline
+            ### So We Made a Simple Pipeline
 
-            TODO: Pipeline picture
+            Input Files -> Python -> PDAL Reader -> PDAL 'Chipper' -> PDAL Writer -> Database
           </textarea>
         </section>
 	<section data-markdown>
           <textarea data-template>
-            Valkyrie Demo
+            <pre><code data-trim data-noescape>
+PIPELINE = {
+    "pipeline": [{
+        "type": "readers.text",
+        "filename": "tmpfile",
+        "separator": ","
+    }, {
+        "type": "filters.chipper",
+        "capacity": 400
+    }, {
+        "type": "writers.pgpointcloud",
+        "connection": DB_STR,
+        "table": "atm1b",
+        "overwrite": "false",
+        "pcid": "1"
+    }]
+}
+            </code></pre>
+          </textarea>
+        </section>
+	<section data-markdown>
+          <textarea data-template>
+            <pre><code data-trim data-noescape>
+$ wget "http://VALKYRIE.nsidc.org/ATM1B?\
+              polygon=\
+                -51.599741,71.582102,\
+                -52.046274,71.816551,\
+                -50.007416,72.303672,\
+                -49.114916,71.792674,\
+                -51.599741,71.582102&\
+              time_range=\
+                2011-03-31T00:00:00,\
+                2011-03-31T23:59:59"
+            </code></pre>
           </textarea>
         </section>
 	<section data-markdown>
@@ -326,7 +377,9 @@
           <textarea data-template>
             ### CesiumJS
 
-            An open-source JavaScript library for world-class 3D globes and maps
+            ![Cesium JS](images/cesiumjs.png)
+
+            <p class="fragment">Let's take a look...</p>
           </textarea>
         </section>
         <section>
@@ -346,8 +399,11 @@
           <textarea data-template>
             The experts:
 
-            [Howard Butler]()
-            [Hobu, Inc.]()
+            [Howard Butler](https://twitter.com/howardbutler)
+
+            [Connor Manning](https://github.com/connormanning)
+
+            [Hobu, Inc.](https://hobu.co/)
           </textarea>
         </section>
 	<section data-markdown>
